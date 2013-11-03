@@ -1,14 +1,14 @@
 package DuiXiang;
 
 public class GuessGame {
-	Player p1;
-	Player p2;
-	Player p3;
+	Play p1;
+	Play p2;
+	Play p3;
 	
 	public void startGame() {
-		p1 = new Player();
-		p2 = new Player();
-		p3 = new Player();
+		p1 = new Play();
+		p2 = new Play();
+		p3 = new Play();
 		
 		int guessp1 = 0;
 		int guessp2 = 0;
