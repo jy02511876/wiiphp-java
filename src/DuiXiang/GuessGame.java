@@ -65,7 +65,7 @@ public class GuessGame {
 }
 
 
-class Player {
+class Play {
 	int number = 0;
 	
 		public void guess() {
@@ -75,7 +75,7 @@ class Player {
 	
 }
 
-public class GameLacuncher {
+class GameLacuncher {
 	public static void main (String[] args) {
 		GuessGame game = new GuessGame();
 		game.startGame();
