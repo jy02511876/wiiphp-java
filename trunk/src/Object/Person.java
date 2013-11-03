@@ -15,6 +15,7 @@ public class Person {
 	private String color = null;
 	//人的性别，默认为男性
 	private String sex = "male";
+	private int age;
 	
 	
 	/**
@@ -29,7 +30,7 @@ public class Person {
 		}else{
 			sexStr = "女";
 		}
-		return "有一个叫"+name+"的"+sexStr+"人，穿着"+color+"的衣服，在路上行走";
+		return "有一个叫\""+name+"\"的"+sexStr+"人，穿着"+color+"的衣服，在路上行走";
 	}
 	
 	/**
