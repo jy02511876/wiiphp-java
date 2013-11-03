@@ -101,5 +101,9 @@ public class Road {
 		bicycle.add(bicycle2);
 		
 		//建立第1辆汽车
+		Car car1 = new Car();
+		car1.setColor("宝蓝")；
+		car1.setBrand("奔驰")；
+		car1.setSize("大");
 	}
 }
