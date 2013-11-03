@@ -10,7 +10,7 @@ public class Road {
 	//自行车数组
 	private ArrayList<Bicycle> bicycle = new ArrayList<Bicycle>();
 	//汽车数组
-
+	private ArrayList<Car> car = new ArrayList<Car>();
 	
 	/**
 	 * 构造方法，初始化这条路的路名
@@ -49,6 +49,15 @@ public class Road {
 		}
 		
 		//汽车
+		for(int i=0;i<car.size();i++){
+			output.append("\t");
+			if(i == 0){
+				output.append(car.get(i).stop());
+			}else{
+				output.append(car.get(i).travel());
+			}
+			output.append("\n");
+		}
 		
 		return output.toString();
 	}
@@ -63,12 +72,12 @@ public class Road {
 		Person person1 = new Person();
 		person1.setName("周斌");
 		person1.setColor("白色");
-		person1.setSex("male");
+		//person1.setSex("male");
 		//建立第2个人
 		Person person2 = new Person();
 		person2.setName("董晨");
 		person2.setColor("红色");
-		person2.setSex("male");
+		//person2.setSex("male");
 		//建立第3个人
 		Person person3 = new Person();
 		person3.setName("美屡");
