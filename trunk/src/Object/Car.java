@@ -5,7 +5,7 @@ public class Car {
 	private String brand;
 	private String size;
 	
-	private String travel()
+	public String travel()
 	{
 		return "有一辆" + color + "的" + brand + "的" + size + "呼的一声开过";
 		
