@@ -102,8 +102,18 @@ public class Road {
 		
 		//建立第1辆汽车
 		Car car1 = new Car();
-		car1.setColor("宝蓝")；
-		car1.setBrand("奔驰")；
+		car1.setColor("宝蓝");
+		car1.setBrand("奔驰");
 		car1.setSize("大");
+		
+		Car car2 = new Car();
+		car2.setColor("黑色");
+		car2.setBrand("宝马");
+		car2.setSize("小");
+		
+		Car car3 = new Car();
+		car3.setColor("红色");
+		car3.setBrand("大众");
+		car3.setSize("大");
 	}
 }
