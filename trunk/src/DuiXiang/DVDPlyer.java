@@ -8,12 +8,16 @@ public class DVDPlyer {
 		System.out.println("DVD recording");
 	}
 
+
+	void playDVD() {
+		System.out.println("DVD playing");
+	}
 }
 
 class DVDPlayerTesDrive {
 	public static void main(String[] args) {
 		
-		DVDPlayer d = new DVDPlayer();
+		DVDPlyer d = new DVDPlyer();
 		d.canRecord = true;
 		d.playDVD();
 		
