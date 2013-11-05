@@ -15,3 +15,6 @@ public class God {
 		System.out.println(renMinLu.things());
 	}
 }
+//person,bicycle,car是基本的类
+//road就是去组织，使用那3个基本的类
+//god就又去用那个road类
