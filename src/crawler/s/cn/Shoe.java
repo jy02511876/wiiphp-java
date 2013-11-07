@@ -1,9 +1,11 @@
 package crawler.s.cn;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.hive.serde2.columnar.BytesRefArrayWritable;
+import org.apache.hadoop.hive.serde2.columnar.BytesRefWritable;
 import org.apache.log4j.Logger;
 
 
@@ -13,7 +15,7 @@ public class Shoe {
 	private double delPrice;
 	private String url;
 	private String imageUrl;
-	private List<String> columns;
+	private List<Object> columns = new ArrayList<Object>();
 	
 	private Logger logger = Logger.getLogger(Shoe.class);
 	
@@ -27,28 +29,27 @@ public class Shoe {
 	
 	private void initColumns()
 	{
-		System.out.println(title);
 		columns.add(title);
-		System.out.println(columns.get(0));
-		System.exit(0);
-		/*
-		columns.add(String.valueOf(price));
-		columns.add(String.valueOf(delPrice));
+		columns.add(price);
+		columns.add(delPrice);
 		columns.add(url);
 		columns.add(imageUrl);
-		*/
 	}
 	
 	
 	public BytesRefArrayWritable getItemValue()
 	{
-		initColumns();
-		System.out.println(columns.isEmpty());
-		System.exit(0);
 		if(columns.size() == 0)
-			this.initColumns();
+			initColumns();
 		BytesRefArrayWritable value = new BytesRefArrayWritable();
-		
+		for(int i=0;i<columns.size();i++){
+			try {
+				value.set(i, new BytesRefWritable(String.valueOf(columns.get(i)).getBytes("UTF-8")));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return value;
 	}
 	
