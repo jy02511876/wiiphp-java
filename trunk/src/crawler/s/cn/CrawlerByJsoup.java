@@ -1,5 +1,9 @@
 package crawler.s.cn;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,19 @@ public class CrawlerByJsoup {
 	
 	public List<Shoe> crawler(){
 		List<Shoe> goods = new ArrayList<Shoe>();
-		int page = 1;
+		int page = 0;
+		
+		FileOutputStream outSTr = null;
+		BufferedOutputStream Buff=null;
+		
+		try {
+			outSTr = new FileOutputStream(new File("E:/s.txt"));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Buff=new BufferedOutputStream(outSTr);
+		
 		while(page >=0){
 			try {
 				Document doc = Jsoup.connect(postUrl)
@@ -45,11 +61,23 @@ public class CrawlerByJsoup {
 					String imageUrl = dl.select("img").first().attr("src");
 					
 					Shoe s = new Shoe(title,Double.parseDouble(price),Double.parseDouble(delPrice),url,imageUrl);
-					goods.add(s);
+					//goods.add(s);
+					try {
+						
+
+							Buff.write(s.toString().getBytes());
+						
+						Buff.flush();
+						
+						
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				logger.info("page:"+page+",size:"+dls.size());
 				try {
-					Thread.sleep(1000*3);
+					Thread.sleep(1000*2);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -57,16 +85,48 @@ public class CrawlerByJsoup {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				page = -1;
+				//page = -1;
 			}
+		}
+		try {
+			Buff.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			outSTr.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return goods;
 	}
 	
 	
+	
 	public static void main(String[] args){
-		CrawlerByJsoup c = new CrawlerByJsoup();
-		c.crawler();
-		System.out.println("finish");
+		CrawlerByJsoup crawler = new CrawlerByJsoup();
+		List<Shoe> goods = crawler.crawler();
+		/*
+		FileOutputStream outSTr = null;
+		BufferedOutputStream Buff=null;
+		try {
+			outSTr = new FileOutputStream(new File("E:/s.txt"));
+			Buff=new BufferedOutputStream(outSTr);
+			for(Shoe g : goods){
+				Buff.write(g.toString().getBytes());
+			}
+			Buff.flush();
+			Buff.close();
+			outSTr.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 	}
 }

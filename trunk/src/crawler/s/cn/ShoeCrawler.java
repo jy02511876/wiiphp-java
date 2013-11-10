@@ -1,5 +1,10 @@
 package crawler.s.cn;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -14,6 +19,14 @@ import java.util.List;
 
 
 
+
+
+
+
+
+
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -62,4 +75,7 @@ public class ShoeCrawler {
 		
 		return shoes;
 	}
+	
+	
+	
 }

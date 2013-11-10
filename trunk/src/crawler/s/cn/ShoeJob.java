@@ -6,54 +6,89 @@ import java.util.List;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hive.ql.io.RCFileOutputFormat;
+import org.apache.hadoop.hive.ql.io.RCFile;
 import org.apache.hadoop.hive.serde2.columnar.BytesRefArrayWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.log4j.Logger;
+
 
 public class ShoeJob {
 	private Logger logger = Logger.getLogger(ShoeJob.class);
 	
-	public static int main(String[] args) throws IOException, ClassNotFoundException, InterruptedException{
-		//Path path = new Path();
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException{
 		Job job = new Job();
 		Configuration conf = job.getConfiguration();
 		
 		job.setJobName("crawler:s.cn");
-		RCFileOutputFormat.setColumnNumber(conf, 5);
 		job.setJarByClass(ShoeJob.class);
-		
-		FileInputFormat.setInputPaths(job, new Path(args[0]));
-		RCFileOutputFormat.setOutputPath((JobConf) job.getConfiguration(), new Path(args[1]));
-		
-		job.setInputFormatClass(TextInputFormat.class);
-		//job.setOutputFormatClass(RCFileOutputFormat.class);
-		
-		job.setMapOutputKeyClass(NullWritable.class);
-		job.setMapOutputValueClass(BytesRefArrayWritable.class);
-		
 		job.setMapperClass(Map.class);
 		
-		return job.waitForCompletion(true) ? 0 : 1; 
+		//RCFileOutputFormat.setColumnNumber(conf, 5);
+		
+		FileInputFormat.setInputPaths(job, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+		
+		//job.setInputFormatClass(TextInputFormat.class);
+		//job.setOutputFormatClass(TextFileOutputFormat.class);
+		
+		
+		job.setMapOutputKeyClass(NullWritable.class);
+		job.setMapOutputValueClass(Text.class);
+		
+		
+		
+		System.exit(job.waitForCompletion(true) ? 0 : 1); 
 	}
 	
 	
 	
-	public static class Map extends Mapper<LongWritable,Text,LongWritable,BytesRefArrayWritable>{
+	public static class Map extends Mapper<LongWritable,Text,NullWritable,Text>{
+		boolean init = false;
 		public void map(LongWritable key,Text value,Context context) throws IOException, InterruptedException{
+			if(!init)
+					initCounter();
 			CrawlerByJsoup c = new CrawlerByJsoup();
 			List<Shoe> goods = c.crawler();
 			for(Shoe g : goods){
-				context.write(null, g.getItemValue());
+				context.write(NullWritable.get(), new Text(g.toString()));
 			}
 
 		}
+		
+		public synchronized void initCounter() {
+            if (init)
+                return;
+            
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    
+                    boolean run = true;
+                    
+                    while (run) {                        
+                        try {
+                            Thread.sleep(1000 * 60);
+                        } catch (InterruptedException e) {
+                            run = false;
+                        }
+                    }
+                }
+            };
+            t.setDaemon(true);
+            t.start();
+            
+            init = true;
+        }
+		
 	}
 	
 	
