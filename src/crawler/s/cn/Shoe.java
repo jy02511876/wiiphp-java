@@ -20,7 +20,7 @@ public class Shoe {
 	private Logger logger = Logger.getLogger(Shoe.class);
 	
 	public Shoe(String title,double price,double delPrice,String url,String imageUrl){
-		this.title = title;
+		this.title = title.trim();
 		this.price = price;
 		this.delPrice = delPrice;
 		this.url = url;
@@ -29,13 +29,26 @@ public class Shoe {
 	
 	private void initColumns()
 	{
-		columns.add(title);
+		columns.add(url);
 		columns.add(price);
 		columns.add(delPrice);
-		columns.add(url);
 		columns.add(imageUrl);
+		columns.add(title.replaceAll("\t", ""));
 	}
 	
+	
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder();
+		if(columns.size() == 0)
+			initColumns();
+		for(int i=0;i<columns.size();i++){
+			str.append(String.valueOf(columns.get(i)));
+			str.append("\t");
+		}
+		int lastIndex = str.lastIndexOf("\t");
+		return new String(str.substring(0,lastIndex) + "\n");
+	}
 	
 	public BytesRefArrayWritable getItemValue()
 	{
