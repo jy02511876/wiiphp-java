@@ -1,13 +1,11 @@
 package crawler.s.cn;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,21 +18,14 @@ public class CrawlerByJsoup {
 	Logger logger = Logger.getLogger(ShoeCrawler.class);
 	
 	
-	public List<Shoe> crawler(){
-		List<Shoe> goods = new ArrayList<Shoe>();
+	public List<Goods> crawler() throws IOException{
+		List<Goods> goods = new ArrayList<Goods>();
 		int page = 0;
 		
-		FileOutputStream outSTr = null;
-		BufferedOutputStream Buff=null;
+		FileWriter file = new FileWriter("s.txt");
 		
-		try {
-			outSTr = new FileOutputStream(new File("E:/s.txt"));
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Buff=new BufferedOutputStream(outSTr);
-		
+		BufferedWriter writer = new BufferedWriter(file);
+				
 		while(page >=0){
 			try {
 				Document doc = Jsoup.connect(postUrl)
@@ -49,6 +40,7 @@ public class CrawlerByJsoup {
 						.post();
 				
 				Elements dls = doc.select("dl");
+				logger.info("page:"+page+",size:"+dls.size());
 				if(dls.size() != 0)
 					page++;
 				else
@@ -60,22 +52,13 @@ public class CrawlerByJsoup {
 					String url = dl.select("a").first().attr("href");
 					String imageUrl = dl.select("img").first().attr("src");
 					
-					Shoe s = new Shoe(title,Double.parseDouble(price),Double.parseDouble(delPrice),url,imageUrl);
+					Goods s = new Goods(title,Double.parseDouble(price),Double.parseDouble(delPrice),url,imageUrl);
 					//goods.add(s);
-					try {
-						
-
-							Buff.write(s.toString().getBytes());
-						
-						Buff.flush();
-						
-						
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					writer.write(s.toString());
+					writer.newLine();
+					writer.flush();
 				}
-				logger.info("page:"+page+",size:"+dls.size());
+				
 				try {
 					Thread.sleep(1000*2);
 				} catch (InterruptedException e) {
@@ -88,18 +71,10 @@ public class CrawlerByJsoup {
 				//page = -1;
 			}
 		}
-		try {
-			Buff.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			outSTr.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		writer.close();
+		file.close();
+
 		return goods;
 	}
 	
@@ -107,7 +82,12 @@ public class CrawlerByJsoup {
 	
 	public static void main(String[] args){
 		CrawlerByJsoup crawler = new CrawlerByJsoup();
-		List<Shoe> goods = crawler.crawler();
+		try {
+			crawler.crawler();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/*
 		FileOutputStream outSTr = null;
 		BufferedOutputStream Buff=null;
