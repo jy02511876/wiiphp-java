@@ -1,35 +1,9 @@
 package crawler.s.cn;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import org.apache.hadoop.io.NullWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -44,8 +18,8 @@ public class ShoeCrawler {
 	
 	Logger logger = Logger.getLogger(ShoeCrawler.class);
 	
-	public List<Shoe> crawler(){
-		List<Shoe> shoes = new ArrayList<Shoe>();
+	public List<Goods> crawler(){
+		List<Goods> shoes = new ArrayList<Goods>();
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		HttpPost httpPost = new HttpPost(postUrl);
 		List <NameValuePair> nvps = new ArrayList <NameValuePair>();

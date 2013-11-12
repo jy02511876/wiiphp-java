@@ -5,30 +5,25 @@ import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.hive.ql.io.RCFileOutputFormat;
-import org.apache.hadoop.hive.ql.io.RCFile;
-import org.apache.hadoop.hive.serde2.columnar.BytesRefArrayWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.log4j.Logger;
 
 
-public class ShoeJob {
-	private Logger logger = Logger.getLogger(ShoeJob.class);
+public class GoodsJob {
+	private Logger logger = Logger.getLogger(GoodsJob.class);
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException{
 		Job job = new Job();
 		Configuration conf = job.getConfiguration();
 		
 		job.setJobName("crawler:s.cn");
-		job.setJarByClass(ShoeJob.class);
+		job.setJarByClass(GoodsJob.class);
 		job.setMapperClass(Map.class);
 		
 		//RCFileOutputFormat.setColumnNumber(conf, 5);
@@ -56,8 +51,8 @@ public class ShoeJob {
 			if(!init)
 					initCounter();
 			CrawlerByJsoup c = new CrawlerByJsoup();
-			List<Shoe> goods = c.crawler();
-			for(Shoe g : goods){
+			List<Goods> goods = c.crawler();
+			for(Goods g : goods){
 				context.write(NullWritable.get(), new Text(g.toString()));
 			}
 
