@@ -1,2 +1,5 @@
 create external table if not exists list (url string,price double,del_price double,image_url string,title string) partitioned by (pt string) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' STORED AS TEXTFILE location '/wiiphp/crawler/s/list_db';
 LOAD DATA local inpath '/home/samba/s.txt' OVERWRITE INTO TABLE list partition (pt="2013-11-10");
+//开始web UI
+hive --service hwi
+访问:http://masterIP:9999/hwi
