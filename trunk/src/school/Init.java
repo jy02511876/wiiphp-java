@@ -190,8 +190,9 @@ public class Init {
 		System.exit(0);
 		*/
 		try{
+			init.classData();
+			init.teacherData();
 			init.studentData();
-			//init.classData();
 		} catch(SQLException e){
 			e.printStackTrace();
 		} catch(Exception e){
