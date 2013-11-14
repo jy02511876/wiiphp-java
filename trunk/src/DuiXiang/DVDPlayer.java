@@ -13,7 +13,7 @@ public class DVDPlayer {
 		System.out.println("DVD playing");
 	}
 }
-
+/*
 class DVDPlayerTesDrive {
 	public static void main(String[] args) {
 		
@@ -26,3 +26,4 @@ class DVDPlayerTesDrive {
 		}
 	}
 }
+*/
