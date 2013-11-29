@@ -1,6 +1,7 @@
 package com.util.mail;
 
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 
 
 public class MyAuthenticator extends Authenticator {
@@ -15,9 +16,11 @@ public class MyAuthenticator extends Authenticator {
 		this.password = password;
 	}
 	
+	
 	@Override
 	protected PasswordAuthentication getPasswordAuthentication() {
 		// TODO Auto-generated method stub
-		return new PasswordAuthentication(username,password);
+		return new PasswordAuthentication(username, password);
 	}
+
 }
