@@ -108,15 +108,21 @@ public class SimpleMailSender {
 	
 	
 	public static void main(String[] args){
+		String fromAddress = "你的邮箱地址";
+		String password = "你的邮箱密码";
+		String toAddress = "收件人的邮箱";
+		String subject = "邮件的标题";
+		String content = "<b>邮件的内容</b>";
+		
 		MailSenderInfo mailInfo = new MailSenderInfo();
 		mailInfo.setMailServerHost("smtp.qq.com");
 		mailInfo.setValidate(true);
-		mailInfo.setUsername("42397814@qq.com");
-		mailInfo.setPassword("kin_3788-ZHOU");
-		mailInfo.setFromAddress("42397814@qq.com");
-		mailInfo.setToAddress("mf02511876@163.com");
-		mailInfo.setSubject("邮件标题");
-		mailInfo.setContent("<b>邮件内容</b>");
+		mailInfo.setUsername(fromAddress);
+		mailInfo.setPassword(password);
+		mailInfo.setFromAddress(fromAddress);
+		mailInfo.setToAddress(toAddress);
+		mailInfo.setSubject(subject);
+		mailInfo.setContent(content);
 		
 		SimpleMailSender sms = new SimpleMailSender();
 		sms.sendTextMail(mailInfo);
