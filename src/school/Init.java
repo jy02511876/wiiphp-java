@@ -37,6 +37,7 @@ public class Init {
 			for(int classNum=1;classNum <=4;classNum++){
 				String className = grade+"年("+classNum+")班";
 				sql = "insert into class (class_name) values ('"+className+"')";
+//				System.out.println(sql);
 				statement.execute(sql);
 			}
 		}
@@ -115,6 +116,7 @@ public class Init {
 				str.append(line);
 			}
 			secondNames = str.toString().split("、");
+			nameFile.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

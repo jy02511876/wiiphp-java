@@ -3,7 +3,6 @@ package file;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +41,7 @@ public class FileIO {
 			sb.append(n);
 			off+= 8192;
 		}
-		
+		is.close();
 		return sb.toString();
 	}
 }
