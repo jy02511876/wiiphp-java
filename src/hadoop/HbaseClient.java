@@ -21,7 +21,9 @@ public class HbaseClient {
 		byte [] tablename = htd.getName();
 		HTableDescriptor [] tables = admin.listTables();
 		if(tables.length != 1 && Bytes.equals(tablename, tables[0].getName())){
+			admin.close();
 			throw new IOException("Failed create of table");
 		}
+		admin.close();
 	}
 }
