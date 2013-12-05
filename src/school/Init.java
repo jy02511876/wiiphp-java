@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +20,14 @@ public class Init {
 	
 	
 	public Init(){
-		this.statement = Mysql.getSatement();
+		Mysql mysql = Mysql.getInstance();
+		Connection conn = mysql.getConn();
+		try {
+			statement = conn.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
