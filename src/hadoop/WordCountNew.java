@@ -1,5 +1,44 @@
 package hadoop;
 
+/**
+ * 原始文件如下：
+ * file1:
+ * 	hello world
+ * file2:
+ * 	hello hadoop
+ * 	hello mapreduce
+ * 
+ * Map Task1:
+ * 	<"hello",1>
+ * 	<"world",1>
+ * Map Task2:
+ * 	<"hello",1>
+ * 	<"hadoop",1>
+ * 	<"hello",1>
+ * 	<"mapreduce",1>
+ * 
+ * Combiner:（先将局部用Reduce合并一下，减少网络压力）
+ * Map Task1:
+ * 	<"hello",1>
+ * 	<"world",1>
+ * Map Task2:
+ * 	<"hadoop",1>
+ * 	<"hello",2>
+ * 	<"mapreduce",1>
+ * 
+ * 然后是MapReduce的shuffle过程（系统自身的一个过程）:
+ * <"hadoop",1>
+ * <"hello",<1,2>>
+ * <"mapreduce",1>
+ * <"world",1>
+ * 
+ * 最终通过reduce后的结果:
+ * <"hadoop",1>
+ * <"hello",3>
+ * <"mapreduce",1>
+ * <"world",1>
+ * 
+ */
 import java.io.IOException;
 import java.util.StringTokenizer;
 
@@ -60,6 +99,7 @@ public class WordCountNew extends Configured implements Tool {
 		job.setOutputValueClass(IntWritable.class);
 		
 		job.setMapperClass(Map.class);
+		job.setCombinerClass(Reduce.class);
 		job.setReducerClass(Reduce.class);
 		
 		job.setInputFormatClass(TextInputFormat.class);
