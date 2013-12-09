@@ -14,6 +14,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.log4j.Logger;
 
+import s_cn.Goods;
+import s_cn.crawler.CrawlerByJsoup;
+
 
 public class GoodsJob {
 	private Logger logger = Logger.getLogger(GoodsJob.class);
