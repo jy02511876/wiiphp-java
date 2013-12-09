@@ -2,6 +2,7 @@ package crawler.s.cn;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -12,6 +13,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+
+import s_cn.Goods;
 
 public class ShoeCrawler {
 	private static String postUrl = "http://www.s.cn/newsearch-get_ajax_index.html";
