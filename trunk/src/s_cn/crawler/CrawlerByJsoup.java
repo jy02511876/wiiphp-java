@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -27,7 +29,7 @@ public class CrawlerByJsoup {
 	public CrawlerByJsoup(){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String date = format.format(new Date());
-		filename = "files/s_"+date;
+		filename = "files/s_cn/s_"+date;
 	}
 	
 	public List<Goods> crawler() throws IOException{
@@ -57,21 +59,21 @@ public class CrawlerByJsoup {
 				else
 					page = -1;
 				for(Element dl : dls){
-					String title = dl.select("img").first().attr("alt").trim();
+					String title = dl.select("a").first().attr("title").trim();
 					String price = dl.select("i.price").first().html().substring(1);
 					String delPrice = dl.select("i.del_price").first().html().substring(1);
 					String url = dl.select("a").first().attr("href");
 					String imageUrl = dl.select("img").first().attr("src");
 					
 					Goods s = new Goods(title,Double.parseDouble(price),Double.parseDouble(delPrice),url,imageUrl);
-					//goods.add(s);
+					//System.out.println(s.toString());
 					writer.write(s.toString());
 					writer.newLine();
 					writer.flush();
 				}
 				
 				try {
-					Thread.sleep(1000*2);
+					Thread.sleep(1000*4);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -89,6 +91,38 @@ public class CrawlerByJsoup {
 		return goods;
 	}
 	
+	
+	public static Goods getGoodsByUrl(String url){
+		Goods goods = new Goods();
+		try {
+			Document doc = Jsoup.connect(url)
+					.timeout(10000)
+					.get();
+			String title = doc.select("h1.goodsname").text();
+			goods.setTitle(title);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return goods;
+	}
+	
+	
+	public Map<String,Goods> getGoodsByUrl(String[] urls) throws IOException{
+		Map<String,Goods> goodsInfo = new HashMap<String,Goods>();
+		for(String url : urls){
+			Goods goods = new Goods();
+			Document doc = Jsoup.connect(url)
+					.timeout(5000)
+					.get();
+			String title = doc.select("h1.goodsname").text();
+			goods.setTitle(title);
+			goodsInfo.put(url, goods);
+		}
+		return goodsInfo;
+	}
+	
+
 	
 	
 	public static void main(String[] args){

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.text.StrTokenizer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,6 +20,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
+
 import crawler.util.MongoDB;
 
 public class SaveToMongo {
@@ -44,27 +46,29 @@ public class SaveToMongo {
 		DBCollection hisCollection = db.getCollection(hisTable);
 
 		String line;
-		int i = 1;
 		BasicDBObject q;
-		
+		StringBuilder titleBuilder = new StringBuilder();
+		int j = 0;
 		while((line = reader.readLine()) != null){
+			//System.out.println(line);
 			StrTokenizer tokenizer = new StrTokenizer(line);
 			BasicDBObjectBuilder obj = BasicDBObjectBuilder.start();
+
 			String[] data = tokenizer.getTokenArray();
-			if(data.length != 5) continue;
+			//System.out.println(data.length);
+			if(data.length == 0) continue;
 			
-			String title = data[4];
+			for(int i=4;i<data.length;i++){
+				titleBuilder.append(data[i]+"\t");
+			}
+			String title = StringUtils.trim(titleBuilder.toString());
 			String url = data[0];
 			String imageUrl = data[3];
 			Double price = Double.parseDouble(data[1]);
 			Double delPrice = Double.parseDouble(data[2]);
 			
-			Goods goods = new Goods();
-			goods.setTitle(title);
-			goods.setUrl(url);
-			goods.setImageUrl(imageUrl);
-			goods.setPrice(price);
-			goods.setDelPrice(delPrice);
+			Goods goods = new Goods(title,price,delPrice,url,imageUrl);
+			//System.out.println(goods.toString());
 			
 			//先查找一下商品是否已经在全局库中，不在的话，插入新数据
 			q = new BasicDBObject("url",goods.getUrl());
@@ -85,8 +89,8 @@ public class SaveToMongo {
 					.append("date", date);
 			hisCollection.insert(hisObj,WriteConcern.ERRORS_IGNORED);
 			
-			System.out.println(i);
-			i++;
+			j++;
+			System.out.println(j);
 		}
 		MongoDB.close();
 	}
@@ -188,13 +192,16 @@ public class SaveToMongo {
 	
 	
 	
+	
+	
+	
 	public static void main(String[] args) throws IOException {
 		SaveToMongo mongo = new SaveToMongo();
 		//导入数据,部分数据的title有问题，显示 ？？，特殊处理一下
-		mongo.initData();
+		//mongo.initData();
 		
 		//将每天抓的数据中的新的商品，导入mongo中
-		//mongo.addNew();
+		mongo.addNew();
 	}
 	
 	
