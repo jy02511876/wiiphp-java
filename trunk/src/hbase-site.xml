@@ -5,17 +5,21 @@
     <property>
         <name>hbase.master</name>
         <value>cmaster:60000</value>
+        <description>hbase主服务器的地址</description>
     </property>
     <property>
 		<name>hbase.zookeeper.quorum</name>
         <value>cmaster</value>
+        <description>zookeeper的地址</description>
     </property>
     <property>
 		<name>hbase.zookeeper.property.clientPort</name>
         <value>2222</value>
+        <description>zookeeper的端口</description>
     </property>
     <property>
 		<name>hbase.master.port</name>
         <value>46637</value>
+        <description>hbase主服务器的端口，见http://cmaster:60010上的参数</description>
     </property>
 </configuration>
