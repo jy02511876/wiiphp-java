@@ -12,6 +12,12 @@ import org.apache.hadoop.hbase.util.Bytes;
 public class HbaseClient {
 	public static void main(String[] args) throws IOException{
 		Configuration conf = HBaseConfiguration.create();
+		/*
+		conf.set("hbase.master", "cmaster:60000");
+		conf.set("hbase.zookeeper.quorum","cmaster");
+		conf.set("hbase.zookeeper.property.clientPort","2222");
+		conf.set("hbase.master.port", "46637");
+		*/
 		HBaseAdmin admin = new HBaseAdmin(conf);
 		HTableDescriptor htd = new HTableDescriptor("test");
 		HColumnDescriptor hcd = new HColumnDescriptor("data");
