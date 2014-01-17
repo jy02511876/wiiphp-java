@@ -13,12 +13,10 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 public class BatchCommit {
 	private static Configuration conf;
-	private static HBaseAdmin admin;
 	
 	public static void main(String[] args) throws IOException{
 		conf = HBaseConfiguration.create();
-		admin = new HBaseAdmin(conf);
-		
+
 		System.out.println("禁用自动Flush，减少RPC(网络交互)，实现快速操作");
 		String tableName = "testtable";
 		//createTable("test");
@@ -47,5 +45,7 @@ public class BatchCommit {
 		table.flushCommits();
 		Result res2 = table.get(get);
 		System.out.println("Results:"+res2);
+		
+		table.close();
 	}
 }
