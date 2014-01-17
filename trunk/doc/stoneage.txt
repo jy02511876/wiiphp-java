@@ -1,0 +1,36 @@
+﻿一、目录结构（在原有打wiiphp-java项目下）
+wiiphp-java
+    ———files/
+		——stoneage/
+			——enemy.txt          //将原数据放在这个位置
+    ———src/
+		——stoneage/ 				(通过建package包)
+			——  ImportEnemy.java                    //数据导入的代码
+			——  SearchName.java		//搜索宠物名字的代码
+
+
+二、数据结构 (mysql)
+新建  `stoneage`库
+	表：｀enemy｀
+		id	int(11)  primarykey   ‘自增id’
+		name   varchar(255)		‘enemy中的宠物名字’
+		line_id	int(11)			‘名字相对应的行号’
+
+三、开发
+	1.ImportEnemy.java		//执行数据清洗，导入的步骤
+	思路：先打开路径下的enemy.txt，然后按行(“\r\n”)分割成行数组(LineArray)
+		循环LineArray数组，在按逗号（“,”）分割成列数组(ColumnArray)
+		取列数组的第一个元素，即为宠物名字（name）
+		如果列数组ColumnArray的长度为0，则说明这行是空的行，则略过数据插入的过程
+		拼装sql语句 insert into `enemy` (`name`,`line_id`) values (“{name}”,i)   i是循环LineArray时候的的变量 for(int i = 1; i<=LineArray.size();i++)
+		插入mysql
+	关键点：分割需要用到String类的split方法，或者StringTokenizer类
+		   数据库执行部分，参考 wiiphp-java中的school.Init 类	
+
+	2.SearchName.java		//通过关键字搜索宠物信息（名字和行号）
+	思路：接受用户输入的关键字keyword,
+		连结mysql，然后执行查询语句:
+		select * from enemy where name like ‘%{keyword}%’;
+		将结果循环显示出来
+	关键点：如果接收用户的输入数据(System.in)
+		   将数据循环打印出来(ResultSet)
