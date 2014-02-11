@@ -25,7 +25,7 @@ import crawler.util.MongoDB;
 
 public class SaveToMongo {
 	private static String folder = "files/s_cn";
-	private static String dbname = "test";
+	private static String dbname = "s_cn";
 	private static String listTable = "s_cn_list";
 	private static String hisTable = "s_cn_his";
 	
