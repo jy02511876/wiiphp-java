@@ -11,9 +11,9 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
 public class MongoDB {
-	private static String user = "mongo";
+	private static String user = "root";
 	private static String password = "123456";
-	private static String host = "master";
+	private static String host = "cmaster";
 	private static String port = "27017";
 	
 	private static MongoClient mongo = null;
