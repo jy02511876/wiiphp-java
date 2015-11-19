@@ -72,6 +72,20 @@ public class RedisOp {
 	}
 	
 	
+	
+	public void listOp(){
+		String key = "acount_game";
+		jedis.del(key);
+		jedis.lpush(key, "1","2","3","4");
+		System.out.println(jedis.llen(key));
+		List<String> values = jedis.lrange(key, 0, -1);
+		for(int j=0;j<values.size();j++)
+			System.out.println(values.get(j));
+		
+		jedis.rpop(key);
+		System.out.println(jedis.llen(key));
+	}
+	
 	public void insertData1(){
 		for(int i=0;i<1000;i++)
 			jedis.set("name"+i,String.valueOf(i));
@@ -87,7 +101,8 @@ public class RedisOp {
 
 	public static void main(String[] args){
 		RedisOp op = new RedisOp();
-		op.run();
+//		op.run();
+		op.listOp();
 	}
 	
 	

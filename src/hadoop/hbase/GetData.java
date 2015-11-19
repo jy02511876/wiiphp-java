@@ -14,17 +14,36 @@ import org.apache.hadoop.hbase.util.Bytes;
 public class GetData {
 	private static Configuration conf;
 	
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args){
+		System.out.println("1");
 		conf = HBaseConfiguration.create();
+		System.out.println("2");
+		System.out.println(conf.get("hbase.zookeeper.quorum"));
 		//取单条记录
-		HTable table = new HTable(conf,"testtable");
-		Get get = new Get(Bytes.toBytes("row1"));
-		get.addColumn(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
-		Result result = table.get(get);
-		byte[] val = result.getValue(Bytes.toBytes("colfam1"), Bytes.toBytes("qual1"));
-		System.out.println("value:"+Bytes.toString(val));
+		HTable table;
+		try {
+			table = new HTable(conf,"test");
+			System.out.println("3");
+			Get get = new Get(Bytes.toBytes("row1"));
+			System.out.println("4");
+			get.addColumn(Bytes.toBytes("c"), Bytes.toBytes("q"));
+			System.out.println("5");
+			Result result;
+		
+			result = table.get(get);
+			System.out.println("6");
+			byte[] val = result.getValue(Bytes.toBytes("c"), Bytes.toBytes("q"));
+			System.out.println("7");
+			System.out.println("value:"+Bytes.toString(val));
+			table.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		//批量取数据
+		/*
 		byte[] row1 = Bytes.toBytes("row1");
 		byte[] row2 = Bytes.toBytes("row2");
 		byte[] row3 = Bytes.toBytes("row3");
@@ -55,7 +74,7 @@ public class GetData {
 				System.out.println("key:"+Bytes.toString(row)+",value:"+Bytes.toString(value));
 			}
 		}
-		
-		table.close();
+		*/
+
 	}
 }
